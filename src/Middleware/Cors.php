@@ -1,5 +1,6 @@
 <?php // src/Middleware/Cors.php
 namespace App\Middleware;
+use App\Env;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -11,7 +12,7 @@ final class Cors implements MiddlewareInterface
     private array $allowed;
 
    public function __construct() {
-    $list = (string)(getenv('CORS_ALLOWED_ORIGINS') ?: $_ENV['CORS_ALLOWED_ORIGINS'] ?? '');
+    $list = (string)(Env::get('CORS_ALLOWED_ORIGINS', ''));
     $this->allowed = array_filter(array_map('trim', explode(',', $list)));
 }
 

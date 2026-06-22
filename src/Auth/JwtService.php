@@ -1,5 +1,6 @@
 <?php
 namespace App\Auth;
+use App\Env;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 final class JwtService {
@@ -8,9 +9,9 @@ final class JwtService {
  private int $ttl;
  private string $issuer;
  public function __construct() {
- $this->secret = $_ENV['JWT_SECRET'];
- $this->ttl = (int)($_ENV['JWT_TTL'] ?? 3600);
- $this->issuer = $_ENV['JWT_ISSUER'] ?? 'books-api';
+ $this->secret = Env::get('JWT_SECRET') ?? throw new \RuntimeException('JWT_SECRET is not set');
+ $this->ttl = (int)(Env::get('JWT_TTL', '3600'));
+ $this->issuer = Env::get('JWT_ISSUER', 'books-api');
  }
  public function issue(int $userId, array $extra = []): string {
  $now = time();

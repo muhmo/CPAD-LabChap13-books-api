@@ -5,6 +5,7 @@ use App\Auth\JwtService;
 use App\Controllers\AuthController;
 use App\Controllers\BookController;
 use App\Database;
+use App\Env;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\RateLimit;
 use App\Repositories\BookRepository;
@@ -23,8 +24,8 @@ return function (App $app): void {
     $authCtrl = new AuthController(new UserRepository($pdo), $jwt);
     $auth     = new AuthMiddleware($jwt);
     $loginMw = new RateLimit(
- (int)($_ENV['LOGIN_RATE_LIMIT'] ?? 5),
- (int)($_ENV['LOGIN_WINDOW_SECONDS'] ?? 60),
+ (int)(Env::get('LOGIN_RATE_LIMIT', '5')),
+ (int)(Env::get('LOGIN_WINDOW_SECONDS', '60')),
  'login'
 );
 

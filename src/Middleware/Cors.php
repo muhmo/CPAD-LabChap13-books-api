@@ -10,9 +10,9 @@ final class Cors implements MiddlewareInterface
 {
     private array $allowed;
 
-    public function __construct() {
- $list = (string)($_ENV['CORS_ALLOWED_ORIGINS'] ?? '');
- $this->allowed = array_filter(array_map('trim', explode(',', $list)));
+   public function __construct() {
+    $list = (string)(getenv('CORS_ALLOWED_ORIGINS') ?: $_ENV['CORS_ALLOWED_ORIGINS'] ?? '');
+    $this->allowed = array_filter(array_map('trim', explode(',', $list)));
 }
 
 public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {

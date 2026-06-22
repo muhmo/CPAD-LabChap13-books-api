@@ -9,7 +9,11 @@ final class JwtService {
  private int $ttl;
  private string $issuer;
  public function __construct() {
- $this->secret = Env::get('JWT_SECRET') ?? throw new \RuntimeException('JWT_SECRET is not set');
+ $secret = Env::get('JWT_SECRET') ?? throw new \RuntimeException('JWT_SECRET is not set');
+ if (strlen($secret) < 32) {
+     throw new \RuntimeException('JWT_SECRET must be at least 32 characters');
+ }
+ $this->secret = $secret;
  $this->ttl = (int)(Env::get('JWT_TTL', '3600'));
  $this->issuer = Env::get('JWT_ISSUER', 'books-api');
  }

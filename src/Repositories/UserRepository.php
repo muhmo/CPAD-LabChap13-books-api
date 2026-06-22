@@ -28,4 +28,5 @@ final class UserRepository {
  $stmt->execute([':e' => mb_strtolower(trim($e))]);
  return (bool)$stmt->fetchColumn();
  }
+ public function pdo(): PDO { return $this->pdo; }
 }

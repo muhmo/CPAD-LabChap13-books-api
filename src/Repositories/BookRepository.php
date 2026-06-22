@@ -59,4 +59,5 @@ final class BookRepository
  $stmt->execute([':id' => $id]);
  return $stmt->rowCount() === 1;
  }
+ public function pdo(): PDO { return $this->pdo; }
 }
